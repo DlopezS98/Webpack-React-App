@@ -245,3 +245,11 @@ or build
 ```
 npm run build
 ```
+
+You can also review the official docs in [webpack.js.org](https://webpack.js.org/concepts/).
+
+References.
+
+[Webpack docs](https://webpack.js.org/concepts/).
+
+[FreeCodeCamp](https://www.freecodecamp.org/news/an-intro-to-webpack-what-it-is-and-how-to-use-it-8304ecdc3c60/).
