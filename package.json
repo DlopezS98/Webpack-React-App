@@ -1,0 +1,15 @@
+{
+  "name": "react-webpack",
+  "version": "1.0.0",
+  "description": "This is an example to learn how webpack works behind the scenes with react",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DlopezS98/Webpack-React-App.git"
+  },
+  "author": "Danny López",
+  "license": "ISC"
+}
