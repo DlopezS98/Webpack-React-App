@@ -245,3 +245,96 @@ or build
 ```
 npm run build
 ```
+
+## Adding Typescript in the current project
+The first thing that we're gonna require is some npm packages
+```console
+npm install @babel/core @babel/preset-typescript @types/node @types/react @types/react-dom typescript -D
+```
+Once that we have installed the packages, let's put one more configuration into the `.babelrc` at the end of the array `"@babel/typescript"`
+
+#### _.babelrc_
+```json
+{
+    "presets": ["@babel/preset-env", "@babel/preset-react", "@babel/typescript"]
+}
+```
+Also we need to initialize a typescript config file `tsconfig.json`. If you have installed typescript globally you can use
+```console
+tsc --init
+```
+otherwise use
+```console
+npx tsc --init
+```
+we need to uncomment some lines of code and the final result that we need is:
+#### _tsconfig.json_
+```json
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "jsx": "react",                                /* Specify what JSX code is generated. */
+
+    /* Modules */
+    "module": "commonjs",                                /* Specify what module code is generated. */
+    "rootDir": "./src",                                  /* Specify the root folder within your source files. */
+    "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
+
+    /* JavaScript Support */
+    "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the `checkJS` option to get errors from these files. */
+
+    /* Interop Constraints */
+    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
+    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
+
+    /* Type Checking */
+    "strict": true,                                      /* Enable all strict type-checking options. */
+
+    /* Completeness */
+    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+  },
+  "include": ["src"]
+}
+```
+
+In order to use typescript with our project we need to modify some stuffs inside of the webpack configuration. the first thing is change the pattern the test value in the rules of the modules and also add one section more to specify what kind of extensions webpack is gonna support. Don't forget to change the js files and use now the tsx extension for the react components. We can also still using the js files but this is not the idea using typescript.
+
+#### _webpack.config.js_
+```js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  //This property defines where the application starts
+  entry:'./src/index.tsx', // our starter file is gonna be index.tsx instead of index.js
+    
+  //This property defines the file path and the file name which will be used for deploying the bundled file
+  output:{
+    path: path.join(__dirname, '/dist'),
+    filename: 'bundle.js'
+  },
+  //Setup loaders
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/, 
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  },
+  // Setup plugin to use a HTML file for serving bundled js files
+  plugins: [ new HtmlWebpackPlugin({ template: './public/index.html' }) ],
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
+}
+```
+Finally we can start using ts & react. Also you can use the `ts-loader` inside of the webpack config instead of `babel-loader` just install the package
+```console
+npm install ts-loader -D
+```
+Feel free to research in the official docs in [webpack typescript guide - loader](https://webpack.js.org/guides/typescript/#loader)
